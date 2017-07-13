@@ -1,4 +1,6 @@
-﻿using System;
+﻿using IraReports.Models;
+using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,7 +24,26 @@ namespace IraReports
     {
         public MainWindow()
         {
+            var culture = new System.Globalization.CultureInfo("ru-ru");
+            System.Threading.Thread.CurrentThread.CurrentCulture = culture;
+            System.Threading.Thread.CurrentThread.CurrentUICulture = culture;
             InitializeComponent();
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void ListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var lb = sender as ListBox;
+            if(lb.SelectedItem != null)
+            {
+                (DataContext as MainModel).RemoveSourceFile.Execute(lb.SelectedItem);
+            }
+            
+            //
         }
     }
 }

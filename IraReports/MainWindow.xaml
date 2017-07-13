@@ -4,9 +4,46 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:IraReports"
+        xmlns:m="clr-namespace:IraReports.Models"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="500" Width="900">
+    <Window.DataContext>
+        <m:MainModel/>
+    </Window.DataContext>
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="24" />
+            <RowDefinition Height="32" />
+            <RowDefinition Height="32" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="32" />
+        </Grid.RowDefinitions>
+        <Menu Grid.Row="0">
+            <MenuItem Header="_Файл">
+                <MenuItem Header="В_ыход" Click="MenuItem_Click"/>
+            </MenuItem>
+        </Menu>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center">
+            <Label>Укажите расположение каталога роликов:</Label>
+            <TextBlock Background="#eee" MinWidth="400" Text="{Binding CatalogPath}" VerticalAlignment="Center" />
+            <Button Command="{Binding SelectAdCatalog}" Width="30" Height="22" Margin="5,0" >...</Button>
+        </StackPanel>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" >
+            <Button Content="Выберите отчеты:" Width="120" Margin="5"  Command="{Binding SelectSourceReportFiles}" />
+            <Button Content="Экспорт справок:" Width="120" Margin="5"  Command="{Binding ExportReports}" />
+        </StackPanel>
+        <Border Grid.Row="3" BorderBrush="Gray" BorderThickness="3">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <ListBox Grid.Column="0" ItemsSource="{Binding SourceReportFiles}" MouseDoubleClick="ListBox_MouseDoubleClick"/>
+                <TextBlock Grid.Column="1" Text="{Binding Feedback}" ></TextBlock>
+            </Grid>
+        </Border>
+        <StatusBar Grid.Row="4"/>
+
+
     </Grid>
 </Window>
