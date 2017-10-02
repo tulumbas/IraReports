@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:IraReports"
         xmlns:m="clr-namespace:IraReports.Models"
+        Icon="rabbit_1.ico"
         mc:Ignorable="d"
-        Title="MainWindow" Height="500" Width="900">
+        Title="Эфирные справки" Height="500" Width="900">
     <Window.DataContext>
         <m:MainModel/>
     </Window.DataContext>

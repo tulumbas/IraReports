@@ -28,7 +28,8 @@ namespace IraReports.Models.Core
 
         public static string SanitizeFileName(string text)
         {
-            return Regex.Replace(text, @"[\\\/\:\. ;'""]", "_");
+            text = Regex.Replace(text, @"[\\\/\:\. ;'""]", "_");
+            return text.Length > 31 ? text.Substring(0, 31) : text;
         }
     }
 }
