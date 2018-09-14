@@ -60,19 +60,37 @@ namespace IraReports.Models.Source
                         var test = xl.TestCell(sheetName, "A1", "Дата");
                         var startRow = test ? 1 : 2;
                         var records = xl.GetTableDefinedByHeaders<AdRecord>(sheetName, this, _adRecordOptions, startRow);
-                        AdInfo ad;
+
                         foreach (var record in records)
                         {
                             file.Records.Add(record);
-                            if (DB.TryGetValue(record.Code, out ad))
-                            {
-                                record.Info = ad;
-                            }
+                            ResolveAdCode(record);
                         }
                     }
                 }
             }
             return file;
+        }
+
+        private void ResolveAdCode(AdRecord record)
+        {
+            AdInfo ad;
+            if(!string.IsNullOrEmpty(record.Code))
+            {
+                if (DB.TryGetValue(record.Code, out ad))
+                {
+                    record.Info = ad;
+                }
+                else
+                {
+                    // supposedly record.Code can be in the form "CODE Description"
+                    var parts = record.Code.Trim().Split(' ');
+                    if (DB.TryGetValue(parts[0], out ad))
+                    {
+                        record.Info = ad;
+                    }
+                }
+            }
         }
 
         AdInfo IBindByHeadersCXML<AdInfo>.CreateInstance(IXLTableRow row, int rowNumber)
